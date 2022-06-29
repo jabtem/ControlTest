@@ -48,9 +48,10 @@ public class PreviewMeshContainer : PreviewContainerBase
             }
 
             mr.materials = mat;
-            MeshCollider meshCol;
-            meshCol = obj.AddComponent<MeshCollider>();
-            meshCol.convex = true;
+            Collider meshCol;
+            meshCol = obj.AddComponent<BoxCollider>();
+            //meshCol.convex = false;
+            meshCol.isTrigger = true;
             //obj.transform.position = targetTr.position;
             ////메쉬가 회전해있는경우 고려
             //obj.transform.rotation = meshFilters[i].gameObject.transform.rotation;
@@ -97,12 +98,24 @@ public class PreviewMeshContainer : PreviewContainerBase
     }
 
 
-    private void OnCollisionEnter(Collision collision)
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    previewMat.color = new Color(1f, 4 / 255f, 0f, 215 / 255f);
+    //}
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    previewMat.color = new Color(1f/255f, 1f, 0f, 215 / 255f);        
+    //}
+
+
+
+    private void OnTriggerStay(Collider other)
     {
         previewMat.color = new Color(1f, 4 / 255f, 0f, 215 / 255f);
     }
-    private void OnCollisionExit(Collision collision)
+
+    private void OnTriggerExit(Collider other)
     {
-        previewMat.color = new Color(1f/255f, 1f, 0f, 215 / 255f);
+        previewMat.color = new Color(1f / 255f, 1f, 0f, 215 / 255f);
     }
 }

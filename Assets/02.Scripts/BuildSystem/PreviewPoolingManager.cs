@@ -91,11 +91,15 @@ public class PreviewPoolingManager : MonoBehaviour
         //    PreviewMeshContainer mtContainer = reqObject.GetComponent<PreviewMeshContainer>();
         //    mtContainer.PreviewSet(reqObject, buildImpossibleMat);
         //}
-        Rigidbody rigid = reqObject.AddComponent<Rigidbody>();
+        if (!reqObject.TryGetComponent<Rigidbody>(out Rigidbody rigid))
+        {
+            rigid = reqObject.AddComponent<Rigidbody>();
+        }
+
         rigid.useGravity = false;
         rigid.freezeRotation = true;
         previewCtrl.SetObj(reqObject);
-        reqObject.gameObject.SetActive(true);
+        reqObject.SetActive(true);
         
     }
 

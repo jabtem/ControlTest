@@ -26,7 +26,23 @@ public class PreviewCtrl : MonoBehaviour
 
         if (Physics.Raycast(ray, out rayHit, 150f,layerMask) && previewObj !=null)
         {
-            previewObj.transform.position = rayHit.point;
+
+            if (rayHit.collider.TryGetComponent<FunitureInfo>(out FunitureInfo info))
+            {
+                if (info.stackOK)
+                {
+                    previewObj.transform.position = new Vector3(rayHit.point.x, rayHit.collider.bounds.size.y + 0.1f, rayHit.point.z);
+                }
+                else
+                {
+                    previewObj.transform.position = new Vector3(rayHit.point.x, 0f, rayHit.point.z);
+                }
+            }
+            else
+                previewObj.transform.position = rayHit.point;
+
+            //rayHit.collider.ClosestPoint
+            //previewObj.transform.position = new Vector3(rayHit.point.x, 0f, rayHit.point.z);
         }
     }
 
