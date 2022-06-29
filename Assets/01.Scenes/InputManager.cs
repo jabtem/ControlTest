@@ -16,6 +16,9 @@ public class InputManager : MonoBehaviour
 
     public Button testButt;
     public Button testButt2;
+
+    public bool isObjectClick = false;
+
     Vector2 pointerDelta;
 
     public Vector2 PointerDelta
@@ -40,10 +43,15 @@ public class InputManager : MonoBehaviour
         else
             Destroy(this.gameObject);
 
-        inputSet.BuilMenu.PointerMove.performed += OnPointerMove;
-        inputSet.BuilMenu.ObjectSnap.started += (context) =>
+        inputSet.BuildMenu.PointerMove.performed += OnPointerMove;
+        inputSet.BuildMenu.ObjectSnap.started += (context) =>
         {
             Input_ObjectClick?.Invoke();
+            isObjectClick = true;
+        };
+        inputSet.BuildMenu.ObjectSnap.canceled += (context) =>
+        {
+            isObjectClick = false;
         };
 
         inputSet.Player.Move.performed += (context) =>
@@ -51,7 +59,7 @@ public class InputManager : MonoBehaviour
             moveDir = context.ReadValue<Vector3>();
         };
 
-        testButt.onClick.AddListener(() => { ActionMapChange(inputSet.BuilMenu); });
+        testButt.onClick.AddListener(() => { ActionMapChange(inputSet.BuildMenu); });
         testButt2.onClick.AddListener(() => { ActionMapChange(inputSet.Player); });
     }
 

@@ -3,17 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Rendering;
 using UnityEngine;
 
-public enum TransformType
-{
-    Golbal,
-    Local
-}
 
-public enum GizmoType
-{
-    Transform,
-    Rotation
-}
 
 struct TargetDirection
 {
@@ -40,12 +30,12 @@ public class GizmoTest : MonoBehaviour
     TargetDirection targetDirection;
     private void OnEnable()
     {
-        RenderPipelineManager.endCameraRendering += EndCamRender;
+        //RenderPipelineManager.endCameraRendering += EndCamRender;
     }
 
     private void OnDisable()
     {
-        RenderPipelineManager.endCameraRendering -= EndCamRender;
+        //RenderPipelineManager.endCameraRendering -= EndCamRender;
     }
 
 
@@ -55,22 +45,25 @@ public class GizmoTest : MonoBehaviour
     }
     private void Update()
     {
-        if (snapManager.snapObj != null)
-        {
-            Transform target = snapManager.snapObj.transform;
-            Vector3 t = Vector3.Project(target.position - snapManager.rayOrigin,snapManager.rayDir)+snapManager.rayOrigin;
+        //if (snapManager.snapObj != null)
+        //{
+        //    Transform target = snapManager.snapObj.transform;
+        //    Vector3 t = Vector3.Project(target.position - snapManager.rayOrigin,snapManager.rayDir)+snapManager.rayOrigin;
 
-            Debug.DrawRay(snapManager.rayOrigin, target.position - snapManager.rayOrigin,Color.yellow);
-            Debug.DrawLine(snapManager.rayOrigin, t, Color.red);
-            Debug.DrawLine(t, target.position, Color.green);
+        //    Debug.DrawRay(snapManager.rayOrigin, target.position - snapManager.rayOrigin,Color.yellow);
+        //    Debug.DrawLine(snapManager.rayOrigin, t, Color.red);
+        //    Debug.DrawLine(t, target.position, Color.green);
 
 
-            Debug.Log((t - target.position).magnitude);
-        }
-            Debug.DrawLine(snapManager.rayOrigin, snapManager.rayOrigin+snapManager.rayDir,Color.blue);
+        //    Debug.Log((t - target.position).magnitude);
+        //}
+        //    Debug.DrawLine(snapManager.rayOrigin, snapManager.rayOrigin+snapManager.rayDir,Color.blue);
 
 
      }
+
+
+
 
     private void OnPostRender()
     {

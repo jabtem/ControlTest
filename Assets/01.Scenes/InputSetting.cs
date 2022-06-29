@@ -96,7 +96,7 @@ public partial class @InputSetting : IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""BuilMenu"",
+            ""name"": ""BuildMenu"",
             ""id"": ""ed04abc9-03c6-4b81-9a90-1e6aa58e7bff"",
             ""actions"": [
                 {
@@ -149,10 +149,10 @@ public partial class @InputSetting : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        // BuilMenu
-        m_BuilMenu = asset.FindActionMap("BuilMenu", throwIfNotFound: true);
-        m_BuilMenu_ObjectSnap = m_BuilMenu.FindAction("ObjectSnap", throwIfNotFound: true);
-        m_BuilMenu_PointerMove = m_BuilMenu.FindAction("PointerMove", throwIfNotFound: true);
+        // BuildMenu
+        m_BuildMenu = asset.FindActionMap("BuildMenu", throwIfNotFound: true);
+        m_BuildMenu_ObjectSnap = m_BuildMenu.FindAction("ObjectSnap", throwIfNotFound: true);
+        m_BuildMenu_PointerMove = m_BuildMenu.FindAction("PointerMove", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -242,34 +242,34 @@ public partial class @InputSetting : IInputActionCollection2, IDisposable
     }
     public PlayerActions @Player => new PlayerActions(this);
 
-    // BuilMenu
-    private readonly InputActionMap m_BuilMenu;
-    private IBuilMenuActions m_BuilMenuActionsCallbackInterface;
-    private readonly InputAction m_BuilMenu_ObjectSnap;
-    private readonly InputAction m_BuilMenu_PointerMove;
-    public struct BuilMenuActions
+    // BuildMenu
+    private readonly InputActionMap m_BuildMenu;
+    private IBuildMenuActions m_BuildMenuActionsCallbackInterface;
+    private readonly InputAction m_BuildMenu_ObjectSnap;
+    private readonly InputAction m_BuildMenu_PointerMove;
+    public struct BuildMenuActions
     {
         private @InputSetting m_Wrapper;
-        public BuilMenuActions(@InputSetting wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ObjectSnap => m_Wrapper.m_BuilMenu_ObjectSnap;
-        public InputAction @PointerMove => m_Wrapper.m_BuilMenu_PointerMove;
-        public InputActionMap Get() { return m_Wrapper.m_BuilMenu; }
+        public BuildMenuActions(@InputSetting wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ObjectSnap => m_Wrapper.m_BuildMenu_ObjectSnap;
+        public InputAction @PointerMove => m_Wrapper.m_BuildMenu_PointerMove;
+        public InputActionMap Get() { return m_Wrapper.m_BuildMenu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(BuilMenuActions set) { return set.Get(); }
-        public void SetCallbacks(IBuilMenuActions instance)
+        public static implicit operator InputActionMap(BuildMenuActions set) { return set.Get(); }
+        public void SetCallbacks(IBuildMenuActions instance)
         {
-            if (m_Wrapper.m_BuilMenuActionsCallbackInterface != null)
+            if (m_Wrapper.m_BuildMenuActionsCallbackInterface != null)
             {
-                @ObjectSnap.started -= m_Wrapper.m_BuilMenuActionsCallbackInterface.OnObjectSnap;
-                @ObjectSnap.performed -= m_Wrapper.m_BuilMenuActionsCallbackInterface.OnObjectSnap;
-                @ObjectSnap.canceled -= m_Wrapper.m_BuilMenuActionsCallbackInterface.OnObjectSnap;
-                @PointerMove.started -= m_Wrapper.m_BuilMenuActionsCallbackInterface.OnPointerMove;
-                @PointerMove.performed -= m_Wrapper.m_BuilMenuActionsCallbackInterface.OnPointerMove;
-                @PointerMove.canceled -= m_Wrapper.m_BuilMenuActionsCallbackInterface.OnPointerMove;
+                @ObjectSnap.started -= m_Wrapper.m_BuildMenuActionsCallbackInterface.OnObjectSnap;
+                @ObjectSnap.performed -= m_Wrapper.m_BuildMenuActionsCallbackInterface.OnObjectSnap;
+                @ObjectSnap.canceled -= m_Wrapper.m_BuildMenuActionsCallbackInterface.OnObjectSnap;
+                @PointerMove.started -= m_Wrapper.m_BuildMenuActionsCallbackInterface.OnPointerMove;
+                @PointerMove.performed -= m_Wrapper.m_BuildMenuActionsCallbackInterface.OnPointerMove;
+                @PointerMove.canceled -= m_Wrapper.m_BuildMenuActionsCallbackInterface.OnPointerMove;
             }
-            m_Wrapper.m_BuilMenuActionsCallbackInterface = instance;
+            m_Wrapper.m_BuildMenuActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @ObjectSnap.started += instance.OnObjectSnap;
@@ -281,12 +281,12 @@ public partial class @InputSetting : IInputActionCollection2, IDisposable
             }
         }
     }
-    public BuilMenuActions @BuilMenu => new BuilMenuActions(this);
+    public BuildMenuActions @BuildMenu => new BuildMenuActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
     }
-    public interface IBuilMenuActions
+    public interface IBuildMenuActions
     {
         void OnObjectSnap(InputAction.CallbackContext context);
         void OnPointerMove(InputAction.CallbackContext context);
