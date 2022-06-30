@@ -16,6 +16,7 @@ public enum GizmoType
 
 public enum GizmoAxies
 {
+    None,
     X,
     Y,
     Z

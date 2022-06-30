@@ -13,14 +13,14 @@ public class SnapManager : MonoBehaviour
 
     private void OnEnable()
     {
-        InputManager.Instance.Input_ObjectClick += SnapCheck;
+        InputManager.Instance.Input_ObjectClickDown += SnapCheck;
         //InputManager.Instance.Input_ObjectMove += SnapObjMove;
     }
 
 
     private void OnDisable()
     {
-        InputManager.Instance.Input_ObjectClick -= SnapCheck;
+        InputManager.Instance.Input_ObjectClickDown -= SnapCheck;
         //InputManager.Instance.Input_ObjectMove -= SnapObjMove;
     }
     public void SnapCheck()
@@ -76,11 +76,11 @@ public class SnapManager : MonoBehaviour
 
                 foreach (var col in cols)
                 {
-                    col.isTrigger = false;
+                    //col.isTrigger = false;
                 }
 
-                if (snapObj.TryGetComponent<Rigidbody>(out Rigidbody rigid))
-                    rigid.isKinematic = false;
+                //if (snapObj.TryGetComponent<Rigidbody>(out Rigidbody rigid))
+                //    rigid.isKinematic = false;
                 snapObj = null;
                 gizmoManager.ShowGizmo();
             }

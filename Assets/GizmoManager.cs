@@ -17,6 +17,8 @@ public class GizmoManager : MonoBehaviour
     public GizmoAxies selectedAxies;
     TargetDirection targetDirection;
 
+    public Vector3 clickPosition;
+    Vector3 sub;
     private void Reset()
     {
         rotationGizmo = transform.Find("Rotation").gameObject;
@@ -26,11 +28,19 @@ public class GizmoManager : MonoBehaviour
     private void OnEnable()
     {
         InputManager.Instance.Input_ObjectMove += GizmoMove;
+        InputManager.Instance.Input_ObjectClickUp += Test;
     }
 
     private void OnDisable()
     {
         InputManager.Instance.Input_ObjectMove -= GizmoMove;
+        InputManager.Instance.Input_ObjectClickUp -= Test;
+    }
+
+    public void Test()
+    {
+        clickPosition = Vector3.zero;
+        sub = Vector3.zero;
     }
 
     private void Update()
@@ -38,7 +48,10 @@ public class GizmoManager : MonoBehaviour
         if (snapManager.snapObj != null)
         {
             target = snapManager.snapObj.transform;
-            transform.rotation = target.rotation;
+            if (transformType.Equals(TransformType.Local))
+                transform.rotation = target.rotation;
+            else
+                transform.rotation = Quaternion.Euler(Vector3.zero);
             transform.position = target.position;
         }
     }
@@ -48,6 +61,7 @@ public class GizmoManager : MonoBehaviour
         if (snapManager.snapObj == null)
         {
             rotationGizmo.SetActive(false);
+            transformGizmo.SetActive(false);
             return;
         }
 
@@ -55,10 +69,11 @@ public class GizmoManager : MonoBehaviour
         {
             case GizmoType.Rotation:
                 rotationGizmo.SetActive(true);
-                //transformGizmo.gameObject.SetActive(false);
+                transformGizmo.SetActive(false);
                 break;
             case GizmoType.Transform:
                 rotationGizmo.SetActive(false);
+                transformGizmo.SetActive(true);
                 break;
         }
     }
@@ -87,17 +102,45 @@ public class GizmoManager : MonoBehaviour
             {
                 SetTargetDir(transformType, snapManager.snapObj.transform);
 
+
                 switch(selectedAxies)
                 {
                     case GizmoAxies.X:
-                        target.Rotate(Vector3.right, InputManager.Instance.PointerDelta.x + InputManager.Instance.PointerDelta.y);
+                        if (gizmoType.Equals(GizmoType.Rotation))
+                            target.Rotate(target.right, InputManager.Instance.PointerDelta.x - InputManager.Instance.PointerDelta.y, Space.World);
+                        else
+                        {
+                            //target.Translate(target.right * ((InputManager.Instance.PointerDelta.x + InputManager.Instance.PointerDelta.y) * 0.01f), Space.World);
+                            Plane plane = new Plane(target.forward, target.position);
+                            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                            if(plane.Raycast(ray,out float distance))
+                            {
+                                Vector3 d = ray.GetPoint(distance);
+                                if(clickPosition.Equals(Vector3.zero))
+                                {
+                                    clickPosition = d;
+                                    sub = (clickPosition - target.position);
+                                }
+
+                                //target.position = new Vector3(d.x, d.z, transform.position.z);
+                                Vector3 t = Quaternion.AngleAxis(target.rotation.eulerAngles.z, target.forward) * new Vector3(d.x, d.z, target.position.z);
+                                target.position = new Vector3(t.x, t.y+target.position.y, t.z);
+                            }
+                        }
+
                         break;
                     case GizmoAxies.Y:
-                        target.Rotate(Vector3.up, -(InputManager.Instance.PointerDelta.x + InputManager.Instance.PointerDelta.y));
+                        if (gizmoType.Equals(GizmoType.Rotation))
+                            target.Rotate(target.up, InputManager.Instance.PointerDelta.x - InputManager.Instance.PointerDelta.y ,Space.World);
+                        else
+                            target.Translate(target.up * ((InputManager.Instance.PointerDelta.x + InputManager.Instance.PointerDelta.y)*0.01f), Space.World);
                         break;
 
                     case GizmoAxies.Z:
-                        target.Rotate(Vector3.forward, -(InputManager.Instance.PointerDelta.x + InputManager.Instance.PointerDelta.y));
+                        if (gizmoType.Equals(GizmoType.Rotation))
+                            target.Rotate(target.forward, InputManager.Instance.PointerDelta.x - InputManager.Instance.PointerDelta.y,Space.World);
+                        else
+                            target.Translate(target.forward * ((InputManager.Instance.PointerDelta.x + InputManager.Instance.PointerDelta.y) * 0.01f), Space.World);
                         break;
                 }
             }

@@ -7,8 +7,9 @@ using UnityEngine.UI;
 public class InputManager : MonoBehaviour
 {
 
-    public event Action Input_ObjectClick;
+    public event Action Input_ObjectClickDown;
     public event Action Input_ObjectMove;
+    public event Action Input_ObjectClickUp;
 
     public static InputManager Instance;
 
@@ -46,11 +47,12 @@ public class InputManager : MonoBehaviour
         inputSet.BuildMenu.PointerMove.performed += OnPointerMove;
         inputSet.BuildMenu.ObjectSnap.started += (context) =>
         {
-            Input_ObjectClick?.Invoke();
+            Input_ObjectClickDown?.Invoke();
             isObjectClick = true;
         };
         inputSet.BuildMenu.ObjectSnap.canceled += (context) =>
         {
+            Input_ObjectClickUp?.Invoke();
             isObjectClick = false;
         };
 
