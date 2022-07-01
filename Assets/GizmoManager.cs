@@ -18,7 +18,7 @@ public class GizmoManager : MonoBehaviour
     TargetDirection targetDirection;
 
     public Vector3 clickPosition;
-    Vector3 sub;
+    Vector3 clickTargetPos;
     private void Reset()
     {
         rotationGizmo = transform.Find("Rotation").gameObject;
@@ -40,7 +40,7 @@ public class GizmoManager : MonoBehaviour
     public void Test()
     {
         clickPosition = Vector3.zero;
-        sub = Vector3.zero;
+        clickTargetPos = Vector3.zero;
     }
 
     private void Update()
@@ -111,21 +111,33 @@ public class GizmoManager : MonoBehaviour
                         else
                         {
                             //target.Translate(target.right * ((InputManager.Instance.PointerDelta.x + InputManager.Instance.PointerDelta.y) * 0.01f), Space.World);
-                            Plane plane = new Plane(target.forward, target.position);
+                            Plane plane = new Plane(Vector3.forward, target.position);
+
+                            Vector3 d = Vector3.zero;
                             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                            if(plane.Raycast(ray,out float distance))
+                            if (plane.Raycast(ray,out float distance))
                             {
-                                Vector3 d = ray.GetPoint(distance);
-                                if(clickPosition.Equals(Vector3.zero))
+                                d = ray.GetPoint(distance);
+                                if (clickPosition.Equals(Vector3.zero))
                                 {
-                                    clickPosition = d;
-                                    sub = (clickPosition - target.position);
+                                    clickPosition = target.position - d;
+                                    clickTargetPos = target.position;
                                 }
 
-                                //target.position = new Vector3(d.x, d.z, transform.position.z);
-                                Vector3 t = Quaternion.AngleAxis(target.rotation.eulerAngles.z, target.forward) * new Vector3(d.x, d.z, target.position.z);
-                                target.position = new Vector3(t.x, t.y+target.position.y, t.z);
+
+                                Vector3 proj = Vector3.Project(d, target.right);
+
+                                target.position = clickTargetPos + proj;
+
+                                //target.position = new Vector3(d.x, d.y, transform.position.z);
+                                //Vector3 t = Quaternion.AngleAxis(target.rotation.eulerAngles.z, transform.forward) * new Vector3(s.x, s.y,s.z);
+                                //target.position =  new Vector3(target.position.x+t.x,  target.position.y+t.y, target.position.z + t.z);
+                                //Vector3 t = Quaternion.AngleAxis(target.rotation.eulerAngles.y,Vector3.up)* new Vector3(d.x, d.y, target.position.z+s.z) ;
+
+                                
                             }
+  
+                            //target.position = new Vector3(d2.x, d.y, d2.z);
                         }
 
                         break;

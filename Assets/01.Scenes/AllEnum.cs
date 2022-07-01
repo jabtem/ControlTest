@@ -19,5 +19,8 @@ public enum GizmoAxies
     None,
     X,
     Y,
-    Z
+    Z,
+    XY,
+    XZ,
+    YZ
 }
