@@ -14,11 +14,10 @@ public class GizmoManager : MonoBehaviour
     GameObject transformGizmo;
     public TransformType transformType;
     public GizmoType gizmoType;
-    public GizmoAxies selectedAxies;
+    public GizmoAxis selectedAxies;
     TargetDirection targetDirection;
 
     public Vector3 clickPosition;
-    public Vector3 clickTargetPos;
     private void Reset()
     {
         rotationGizmo = transform.Find("Rotation").gameObject;
@@ -28,19 +27,20 @@ public class GizmoManager : MonoBehaviour
     private void OnEnable()
     {
         InputManager.Instance.Input_ObjectMove += GizmoMove;
-        InputManager.Instance.Input_ObjectClickUp += Test;
+        InputManager.Instance.Input_ObjectClickUp += SelectInfoReset;
     }
 
     private void OnDisable()
     {
         InputManager.Instance.Input_ObjectMove -= GizmoMove;
-        InputManager.Instance.Input_ObjectClickUp -= Test;
+        InputManager.Instance.Input_ObjectClickUp -= SelectInfoReset;
     }
 
-    public void Test()
+    public void SelectInfoReset()
     {
         clickPosition = Vector3.zero;
-        clickTargetPos = Vector3.zero;
+        selectedAxies = GizmoAxis.None;
+        SelectAxisColorReset();
     }
 
     private void Update()
@@ -65,7 +65,7 @@ public class GizmoManager : MonoBehaviour
             return;
         }
 
-            switch (gizmoType)
+        switch (gizmoType)
         {
             case GizmoType.Rotation:
                 rotationGizmo.SetActive(true);
@@ -78,30 +78,80 @@ public class GizmoManager : MonoBehaviour
         }
     }
 
-    public void SelectedAxies(GizmoAxies axies)
+
+    public void SelectAxisColorChagne(GizmoAxis gizmoAxis )
+    {
+        if (gizmoType.Equals(GizmoType.Rotation))
+        {
+            if (rotationGizmo.TryGetComponent<GizmoBase>(out GizmoBase gizmoBase))
+            {
+                gizmoBase.AxisColorChange(gizmoAxis);
+            }
+
+        }
+        else if (gizmoType.Equals(GizmoType.Transform))
+        {
+            if (transformGizmo.TryGetComponent<GizmoBase>(out GizmoBase gizmoBase))
+            {
+                gizmoBase.AxisColorChange(gizmoAxis);
+            }
+        }
+    }
+
+    public void SelectAxisColorReset()
+    {
+        if (gizmoType.Equals(GizmoType.Rotation))
+        {
+            if (rotationGizmo.TryGetComponent<GizmoBase>(out GizmoBase gizmoBase))
+            {
+                gizmoBase.AxisColorReset();
+
+            }
+
+        }
+        else if (gizmoType.Equals(GizmoType.Transform))
+        {
+            if (transformGizmo.TryGetComponent<GizmoBase>(out GizmoBase gizmoBase))
+            {
+                gizmoBase.AxisColorReset();
+            }
+        }
+    }
+
+
+    public void SelectedAxis(GizmoAxis axies)
     {
         switch(axies)
         {
-            case GizmoAxies.X:
-                selectedAxies = GizmoAxies.X;
+            case GizmoAxis.X:
+                selectedAxies = GizmoAxis.X;
+                SelectAxisColorChagne(selectedAxies);
                 break;
-            case GizmoAxies.Y:
-                selectedAxies = GizmoAxies.Y;
+            case GizmoAxis.Y:
+                selectedAxies = GizmoAxis.Y;
+                SelectAxisColorChagne(selectedAxies);
                 break;
-            case GizmoAxies.Z:
-                selectedAxies = GizmoAxies.Z;
+            case GizmoAxis.Z:
+                selectedAxies = GizmoAxis.Z;
+                SelectAxisColorChagne(selectedAxies);
                 break;
-            case GizmoAxies.XY:
-                selectedAxies = GizmoAxies.XY;
+            case GizmoAxis.XY:
+                selectedAxies = GizmoAxis.XY;
+                SelectAxisColorChagne(selectedAxies);
                 break;
-            case GizmoAxies.XZ:
-                selectedAxies = GizmoAxies.XZ;
+            case GizmoAxis.XZ:
+                selectedAxies = GizmoAxis.XZ;
+                SelectAxisColorChagne(selectedAxies);
                 break;
-            case GizmoAxies.YZ:
-                selectedAxies = GizmoAxies.YZ;
+            case GizmoAxis.YZ:
+                selectedAxies = GizmoAxis.YZ;
+                SelectAxisColorChagne(selectedAxies);
                 break;
         }
     }
+
+
+
 
     public void GizmoMove()
     {
@@ -114,7 +164,7 @@ public class GizmoManager : MonoBehaviour
 
                 switch(selectedAxies)
                 {
-                    case GizmoAxies.X:
+                    case GizmoAxis.X:
                         if (gizmoType.Equals(GizmoType.Rotation))
                             target.Rotate(target.right, InputManager.Instance.PointerDelta.x - InputManager.Instance.PointerDelta.y, Space.World);
                         else
@@ -139,8 +189,9 @@ public class GizmoManager : MonoBehaviour
   
                         }
 
+
                         break;
-                    case GizmoAxies.Y:
+                    case GizmoAxis.Y:
                         if (gizmoType.Equals(GizmoType.Rotation))
                             target.Rotate(target.up, InputManager.Instance.PointerDelta.x - InputManager.Instance.PointerDelta.y ,Space.World);
                         else
@@ -166,7 +217,7 @@ public class GizmoManager : MonoBehaviour
                         }
                         break;
 
-                    case GizmoAxies.Z:
+                    case GizmoAxis.Z:
                         if (gizmoType.Equals(GizmoType.Rotation))
                             target.Rotate(target.forward, InputManager.Instance.PointerDelta.x - InputManager.Instance.PointerDelta.y,Space.World);
                         else
@@ -192,7 +243,7 @@ public class GizmoManager : MonoBehaviour
 
                         }
                         break;
-                    case GizmoAxies.XY:
+                    case GizmoAxis.XY:
                         if (gizmoType.Equals(GizmoType.Transform))
                         {
                             Plane plane = new Plane(target.forward, target.position);
@@ -214,7 +265,7 @@ public class GizmoManager : MonoBehaviour
 
                         }
                         break;
-                    case GizmoAxies.YZ:
+                    case GizmoAxis.YZ:
                         if (gizmoType.Equals(GizmoType.Transform))
                         {
                             Plane plane = new Plane(target.right, target.position);
@@ -236,7 +287,7 @@ public class GizmoManager : MonoBehaviour
 
                         }
                         break;
-                    case GizmoAxies.XZ:
+                    case GizmoAxis.XZ:
                         if (gizmoType.Equals(GizmoType.Transform))
                         {
                             Plane plane = new Plane(target.up, target.position);

@@ -14,7 +14,7 @@ public enum GizmoType
     Rotation
 }
 
-public enum GizmoAxies
+public enum GizmoAxis
 {
     None,
     X,

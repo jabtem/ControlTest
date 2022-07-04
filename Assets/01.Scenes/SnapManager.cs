@@ -33,7 +33,7 @@ public class SnapManager : MonoBehaviour
 
         if (Physics.Raycast(axiesCheckRay,out RaycastHit axiexHit,150f, gizmoLayer))
         {
-            gizmoManager.SelectedAxies((GizmoAxies)Enum.Parse(typeof(GizmoAxies), axiexHit.collider.name));
+            gizmoManager.SelectedAxis((GizmoAxis)Enum.Parse(typeof(GizmoAxis), axiexHit.collider.name));
         }
 
         //if(snapObj == null )
