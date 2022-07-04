@@ -91,6 +91,15 @@ public class GizmoManager : MonoBehaviour
             case GizmoAxies.Z:
                 selectedAxies = GizmoAxies.Z;
                 break;
+            case GizmoAxies.XY:
+                selectedAxies = GizmoAxies.XY;
+                break;
+            case GizmoAxies.XZ:
+                selectedAxies = GizmoAxies.XZ;
+                break;
+            case GizmoAxies.YZ:
+                selectedAxies = GizmoAxies.YZ;
+                break;
         }
     }
 
@@ -114,15 +123,14 @@ public class GizmoManager : MonoBehaviour
                             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                             if (plane.Raycast(ray,out float distance))
                             {
-                                Vector3 d = ray.GetPoint(distance);
+                                Vector3 hitpoint = ray.GetPoint(distance);
                                 if (clickPosition.Equals(Vector3.zero))
                                 {
-                                    clickPosition = d-target.position;
-                                    clickTargetPos = target.position - clickPosition;
+                                    clickPosition = hitpoint-target.position;
                                 }
 
 
-                                Vector3 proj = Vector3.Project(d-(target.position+clickPosition), target.right);
+                                Vector3 proj = Vector3.Project(hitpoint-(target.position+clickPosition), target.right);
 
                                 target.position +=proj;
 
@@ -142,15 +150,14 @@ public class GizmoManager : MonoBehaviour
                             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                             if (plane.Raycast(ray, out float distance))
                             {
-                                Vector3 d = ray.GetPoint(distance);
+                                Vector3 hitpoint = ray.GetPoint(distance);
                                 if (clickPosition.Equals(Vector3.zero))
                                 {
-                                    clickPosition = d - target.position;
-                                    clickTargetPos = target.position - clickPosition;
+                                    clickPosition = hitpoint - target.position;
                                 }
 
 
-                                Vector3 proj = Vector3.Project(d - (target.position + clickPosition), target.up);
+                                Vector3 proj = Vector3.Project(hitpoint - (target.position + clickPosition), target.up);
 
                                 target.position += proj;
 
@@ -169,17 +176,82 @@ public class GizmoManager : MonoBehaviour
                             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                             if (plane.Raycast(ray, out float distance))
                             {
-                                Vector3 d = ray.GetPoint(distance);
+                                Vector3 hitpoint = ray.GetPoint(distance);
                                 if (clickPosition.Equals(Vector3.zero))
                                 {
-                                    clickPosition = d - target.position;
-                                    clickTargetPos = target.position - clickPosition;
+                                    clickPosition = hitpoint - target.position;
                                 }
 
 
-                                Vector3 proj = Vector3.Project(d - (target.position + clickPosition), target.forward);
+                                Vector3 proj = Vector3.Project(hitpoint - (target.position + clickPosition), target.forward);
 
                                 target.position += proj;
+
+
+                            }
+
+                        }
+                        break;
+                    case GizmoAxies.XY:
+                        if (gizmoType.Equals(GizmoType.Transform))
+                        {
+                            Plane plane = new Plane(target.forward, target.position);
+                            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                            if (plane.Raycast(ray, out float distance))
+                            {
+                                Vector3 hitpoint = ray.GetPoint(distance);
+                                if (clickPosition.Equals(Vector3.zero))
+                                {
+                                    clickPosition = hitpoint - target.position;
+                                }
+
+                                Vector3 sub =hitpoint- (target.position + clickPosition);
+
+                                target.position += sub;
+
+
+                            }
+
+                        }
+                        break;
+                    case GizmoAxies.YZ:
+                        if (gizmoType.Equals(GizmoType.Transform))
+                        {
+                            Plane plane = new Plane(target.right, target.position);
+                            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                            if (plane.Raycast(ray, out float distance))
+                            {
+                                Vector3 hitpoint = ray.GetPoint(distance);
+                                if (clickPosition.Equals(Vector3.zero))
+                                {
+                                    clickPosition = hitpoint - target.position;
+                                }
+
+                                Vector3 sub = hitpoint - (target.position + clickPosition);
+
+                                target.position += sub;
+
+
+                            }
+
+                        }
+                        break;
+                    case GizmoAxies.XZ:
+                        if (gizmoType.Equals(GizmoType.Transform))
+                        {
+                            Plane plane = new Plane(target.up, target.position);
+                            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                            if (plane.Raycast(ray, out float distance))
+                            {
+                                Vector3 hitpoint = ray.GetPoint(distance);
+                                if (clickPosition.Equals(Vector3.zero))
+                                {
+                                    clickPosition = hitpoint - target.position;
+                                }
+
+                                Vector3 sub = hitpoint - (target.position + clickPosition);
+
+                                target.position += sub;
 
 
                             }

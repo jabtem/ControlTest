@@ -11,7 +11,7 @@ public class GizmoBase : MonoBehaviour
     public MeshRenderer Z;
 
 
-    private void Awake()
+    protected virtual void Awake()
     {
         Material m = new Material(mat.shader)
         {
@@ -19,19 +19,26 @@ public class GizmoBase : MonoBehaviour
         };
         X.material = m;
 
-        Material m1 = new Material(mat.shader)
+        m = new Material(mat.shader)
         {
             color = Color.green
         };
-        Y.material = m1;
+        Y.material = m;
 
-        Material m2 = new Material(mat.shader)
+        m = new Material(mat.shader)
         {
             color = Color.blue
         };
-        Z.material = m2;
+        Z.material = m;
 
 
+    }
+
+    protected virtual void Reset()
+    {
+        X = transform.Find("X").GetComponent<MeshRenderer>();
+        Y = transform.Find("Y").GetComponent<MeshRenderer>();
+        Z = transform.Find("Z").GetComponent<MeshRenderer>();
     }
 
 }
