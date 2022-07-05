@@ -37,9 +37,9 @@ public class TransformGizmo : GizmoBase
     {
         base.Reset();
 
-        XY = transform.Find("TwoAxis/XY").GetComponent<MeshRenderer>();
-        YZ = transform.Find("TwoAxis/YZ").GetComponent<MeshRenderer>();
-        XZ = transform.Find("TwoAxis/XZ").GetComponent<MeshRenderer>();
+        XY = transform.Find("XYPlane/XY").GetComponent<MeshRenderer>();
+        YZ = transform.Find("YZPlnae/YZ").GetComponent<MeshRenderer>();
+        XZ = transform.Find("XZPlane/XZ").GetComponent<MeshRenderer>();
     }
 
     public override void AxisColorChange(GizmoAxis selectAxis)

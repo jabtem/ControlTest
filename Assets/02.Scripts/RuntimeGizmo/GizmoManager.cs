@@ -18,6 +18,8 @@ public class GizmoManager : MonoBehaviour
     TargetDirection targetDirection;
 
     public Vector3 clickPosition;
+
+
     private void Reset()
     {
         rotationGizmo = transform.Find("Rotation").gameObject;
@@ -48,12 +50,66 @@ public class GizmoManager : MonoBehaviour
         if (snapManager.snapObj != null)
         {
             target = snapManager.snapObj.transform;
+
             if (transformType.Equals(TransformType.Local))
                 transform.rotation = target.rotation;
             else
                 transform.rotation = Quaternion.Euler(Vector3.zero);
             transform.position = target.position;
+
+            SetTargetDir(transformType, target);
+            AxisPlaneUpdate();
+            //Debug.Log(Camera.main.transform.forward * -1);
         }
+    }
+
+    public void AxisPlaneUpdate()
+    {
+
+        if(transformGizmo.TryGetComponent<TransformGizmo>(out TransformGizmo gizmo))
+        {
+            Vector3 forward = targetDirection.forward.normalized * 0.25f;
+            Vector3 right = targetDirection.right.normalized * 0.25f;
+            Vector3 up = targetDirection.up.normalized * 0.25f;
+
+            Vector3 targetPos = target.position;
+
+            //XY
+
+            gizmo.XY.gameObject.transform.position = MinVector(targetPos + right + up, targetPos - right + up, targetPos - right - up, targetPos + right - up);
+            //YZ
+            gizmo.YZ.gameObject.transform.position = MinVector(targetPos + forward + up, targetPos - forward + up, targetPos - forward - up, targetPos + forward - up);
+
+            //XZ
+            gizmo.XZ.gameObject.transform.position = MinVector(targetPos + right + forward, targetPos - right + forward, targetPos - right - forward, targetPos + right - forward);
+        }
+
+
+
+
+    }
+
+    Vector3 MinVector(Vector3 a,Vector3 b, Vector3 c, Vector3 d)
+    {
+        Vector3 cameraPosition = Camera.main.transform.position;
+        Vector3 result = a;
+        if ((cameraPosition - b).magnitude < (cameraPosition - result).magnitude)
+        {
+            result = b;
+        }
+
+        if ((cameraPosition - c).magnitude < (cameraPosition - result).magnitude)
+        {
+            result = c;
+        }
+
+        if ((cameraPosition - d).magnitude < (cameraPosition - result).magnitude)
+        {
+            result = d;
+        }
+
+
+        return result;
     }
 
     public void ShowGizmo()
@@ -159,17 +215,17 @@ public class GizmoManager : MonoBehaviour
         {
             if(snapManager.snapObj != null)
             {
-                SetTargetDir(transformType, snapManager.snapObj.transform);
+
 
 
                 switch(selectedAxies)
                 {
                     case GizmoAxis.X:
                         if (gizmoType.Equals(GizmoType.Rotation))
-                            target.Rotate(target.right, InputManager.Instance.PointerDelta.x - InputManager.Instance.PointerDelta.y, Space.World);
+                            target.Rotate(targetDirection.right, InputManager.Instance.PointerDelta.x - InputManager.Instance.PointerDelta.y, Space.World);
                         else
                         {
-                            Plane plane = new Plane(target.up, target.position);
+                            Plane plane = new Plane(targetDirection.up, target.position);
                             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                             if (plane.Raycast(ray,out float distance))
                             {
@@ -180,7 +236,7 @@ public class GizmoManager : MonoBehaviour
                                 }
 
 
-                                Vector3 proj = Vector3.Project(hitpoint-(target.position+clickPosition), target.right);
+                                Vector3 proj = Vector3.Project(hitpoint-(target.position+clickPosition), targetDirection.right);
 
                                 target.position +=proj;
 
@@ -193,11 +249,11 @@ public class GizmoManager : MonoBehaviour
                         break;
                     case GizmoAxis.Y:
                         if (gizmoType.Equals(GizmoType.Rotation))
-                            target.Rotate(target.up, InputManager.Instance.PointerDelta.x - InputManager.Instance.PointerDelta.y ,Space.World);
+                            target.Rotate(targetDirection.up, InputManager.Instance.PointerDelta.x - InputManager.Instance.PointerDelta.y ,Space.World);
                         else
                         //target.Translate(target.up * ((InputManager.Instance.PointerDelta.x + InputManager.Instance.PointerDelta.y)*0.01f), Space.World);
                         {
-                            Plane plane = new Plane(target.forward, target.position);
+                            Plane plane = new Plane(targetDirection.forward, target.position);
                             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                             if (plane.Raycast(ray, out float distance))
                             {
@@ -208,7 +264,7 @@ public class GizmoManager : MonoBehaviour
                                 }
 
 
-                                Vector3 proj = Vector3.Project(hitpoint - (target.position + clickPosition), target.up);
+                                Vector3 proj = Vector3.Project(hitpoint - (target.position + clickPosition), targetDirection.up);
 
                                 target.position += proj;
 
@@ -219,11 +275,11 @@ public class GizmoManager : MonoBehaviour
 
                     case GizmoAxis.Z:
                         if (gizmoType.Equals(GizmoType.Rotation))
-                            target.Rotate(target.forward, InputManager.Instance.PointerDelta.x - InputManager.Instance.PointerDelta.y,Space.World);
+                            target.Rotate(targetDirection.forward, InputManager.Instance.PointerDelta.x - InputManager.Instance.PointerDelta.y,Space.World);
                         else
                         //target.Translate(target.forward * ((InputManager.Instance.PointerDelta.x + InputManager.Instance.PointerDelta.y) * 0.01f), Space.World);
                         {
-                            Plane plane = new Plane(target.up, target.position);
+                            Plane plane = new Plane(targetDirection.up, target.position);
                             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                             if (plane.Raycast(ray, out float distance))
                             {
@@ -234,7 +290,7 @@ public class GizmoManager : MonoBehaviour
                                 }
 
 
-                                Vector3 proj = Vector3.Project(hitpoint - (target.position + clickPosition), target.forward);
+                                Vector3 proj = Vector3.Project(hitpoint - (target.position + clickPosition), targetDirection.forward);
 
                                 target.position += proj;
 
@@ -246,7 +302,7 @@ public class GizmoManager : MonoBehaviour
                     case GizmoAxis.XY:
                         if (gizmoType.Equals(GizmoType.Transform))
                         {
-                            Plane plane = new Plane(target.forward, target.position);
+                            Plane plane = new Plane(targetDirection.forward, target.position);
                             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                             if (plane.Raycast(ray, out float distance))
                             {
@@ -268,7 +324,7 @@ public class GizmoManager : MonoBehaviour
                     case GizmoAxis.YZ:
                         if (gizmoType.Equals(GizmoType.Transform))
                         {
-                            Plane plane = new Plane(target.right, target.position);
+                            Plane plane = new Plane(targetDirection.right, target.position);
                             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                             if (plane.Raycast(ray, out float distance))
                             {
@@ -290,7 +346,7 @@ public class GizmoManager : MonoBehaviour
                     case GizmoAxis.XZ:
                         if (gizmoType.Equals(GizmoType.Transform))
                         {
-                            Plane plane = new Plane(target.up, target.position);
+                            Plane plane = new Plane(targetDirection.up, target.position);
                             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                             if (plane.Raycast(ray, out float distance))
                             {
