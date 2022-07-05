@@ -249,7 +249,25 @@ public class GizmoManager : MonoBehaviour
                         break;
                     case GizmoAxis.Y:
                         if (gizmoType.Equals(GizmoType.Rotation))
-                            target.Rotate(targetDirection.up, InputManager.Instance.PointerDelta.x - InputManager.Instance.PointerDelta.y ,Space.World);
+                        {
+                            //target.Rotate(targetDirection.up, -InputManager.Instance.PointerDelta.x + InputManager.Instance.PointerDelta.y, Space.World);
+
+                            if (clickPosition.Equals(Vector3.zero))
+                            {
+                                clickPosition = target.position+ targetDirection.right;
+                            }
+
+                            if(Vector3.Dot(targetDirection.up, Vector3.up) >=0)
+                            {
+                                target.Rotate(targetDirection.up, Vector3.Dot(InputManager.Instance.PointerDelta, clickPosition), Space.World);
+                            }
+                            else
+                            {
+                                target.Rotate(targetDirection.up, -Vector3.Dot(InputManager.Instance.PointerDelta, clickPosition), Space.World);
+                            }
+
+                        }
+
                         else
                         //target.Translate(target.up * ((InputManager.Instance.PointerDelta.x + InputManager.Instance.PointerDelta.y)*0.01f), Space.World);
                         {
