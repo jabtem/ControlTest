@@ -254,16 +254,24 @@ public class GizmoManager : MonoBehaviour
 
                             if (clickPosition.Equals(Vector3.zero))
                             {
-                                clickPosition = target.position+ targetDirection.right;
+                                //clickPosition = targetDirection.right;
+
+                                Vector3 test = target.rotation * Vector3.right;
+
+                                test = test.x > 0 ? test : -test;
+
+                                clickPosition = test;
                             }
 
+
+                            Debug.DrawRay(target.position, clickPosition,Color.red);
                             if(Vector3.Dot(targetDirection.up, Vector3.up) >=0)
                             {
-                                target.Rotate(targetDirection.up, Vector3.Dot(InputManager.Instance.PointerDelta, clickPosition), Space.World);
+                                target.Rotate(targetDirection.up, -Vector3.Dot(InputManager.Instance.PointerDelta, clickPosition), Space.World);
                             }
                             else
                             {
-                                target.Rotate(targetDirection.up, -Vector3.Dot(InputManager.Instance.PointerDelta, clickPosition), Space.World);
+                                target.Rotate(targetDirection.up, Vector3.Dot(InputManager.Instance.PointerDelta, clickPosition), Space.World);
                             }
 
                         }
