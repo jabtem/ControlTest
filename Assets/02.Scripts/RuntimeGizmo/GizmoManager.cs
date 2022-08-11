@@ -47,6 +47,8 @@ public class GizmoManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(Input.GetAxis("Mouse X"));
+
         if (snapManager.snapObj != null)
         {
             target = snapManager.snapObj.transform;
@@ -228,7 +230,7 @@ public class GizmoManager : MonoBehaviour
                             {
                                 //clickPosition = targetDirection.right;
 
-                                Vector3 normalVec = Vector3.Cross(targetDirection.right, target.forward);
+                                Vector3 normalVec = Vector3.Cross(targetDirection.right, targetDirection.forward);
 
                                 normalVec = normalVec.y < 0 ? normalVec : -normalVec;
 
@@ -279,13 +281,13 @@ public class GizmoManager : MonoBehaviour
                             {
                                 //clickPosition = targetDirection.right;
 
-                                Vector3 normalVec = Vector3.Cross(targetDirection.up, target.forward);
+                                Vector3 normalVec = Vector3.Cross(targetDirection.up, targetDirection.forward);
 
                                 normalVec = normalVec.x > 0 ? normalVec : -normalVec;
 
                                 clickPosition = normalVec;
-                            }
-
+                            } 
+                            Debug.DrawRay(target.position, clickPosition * 100f, Color.red);
                             if (Vector3.Dot(targetDirection.up, Vector3.up) >= 0)
                             {
                                 target.Rotate(targetDirection.up, -Vector3.Dot(InputManager.Instance.PointerDelta, clickPosition), Space.World);
@@ -328,7 +330,7 @@ public class GizmoManager : MonoBehaviour
                             {
                                 //clickPosition = targetDirection.right;
 
-                                Vector3 normalVec = Vector3.Cross(targetDirection.forward, target.up);
+                                Vector3 normalVec = Vector3.Cross(targetDirection.forward, targetDirection.up);
 
                                 normalVec = normalVec.y > 0 ? normalVec : -normalVec;
 
