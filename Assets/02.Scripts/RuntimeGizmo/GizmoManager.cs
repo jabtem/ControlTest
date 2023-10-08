@@ -47,8 +47,6 @@ public class GizmoManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(Input.GetAxis("Mouse X"));
-
         if (snapManager.snapObj != null)
         {
             target = snapManager.snapObj.transform;
@@ -61,7 +59,6 @@ public class GizmoManager : MonoBehaviour
 
             SetTargetDir(transformType, target);
             AxisPlaneUpdate();
-            //Debug.Log(Camera.main.transform.forward * -1);
         }
     }
 
@@ -77,18 +74,12 @@ public class GizmoManager : MonoBehaviour
             Vector3 targetPos = target.position;
 
             //XY
-
             gizmo.XY.gameObject.transform.position = MinVector(targetPos + right + up, targetPos - right + up, targetPos - right - up, targetPos + right - up);
             //YZ
             gizmo.YZ.gameObject.transform.position = MinVector(targetPos + forward + up, targetPos - forward + up, targetPos - forward - up, targetPos + forward - up);
-
             //XZ
             gizmo.XZ.gameObject.transform.position = MinVector(targetPos + right + forward, targetPos - right + forward, targetPos - right - forward, targetPos + right - forward);
         }
-
-
-
-
     }
 
     Vector3 MinVector(Vector3 a,Vector3 b, Vector3 c, Vector3 d)

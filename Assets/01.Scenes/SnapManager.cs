@@ -36,8 +36,6 @@ public class SnapManager : MonoBehaviour
             gizmoManager.SelectedAxis((GizmoAxis)Enum.Parse(typeof(GizmoAxis), axiexHit.collider.name));
         }
 
-        //if(snapObj == null )
-        //{
         if (Physics.Raycast(ray, out RaycastHit hit, 150f, layerMask))
         {
             if (hit.collider.GetComponentInParent<GizmoBase>() != null)
@@ -45,16 +43,12 @@ public class SnapManager : MonoBehaviour
                 return;
             }
 
-
             if (hit.collider.transform.parent != null)
             {
                 snapObj = hit.collider.transform.parent.gameObject;
             }
             else
                 snapObj = hit.collider.gameObject;
-
-
-
 
             Collider[] cols = snapObj.GetComponentsInChildren<Collider>();
 
@@ -72,12 +66,12 @@ public class SnapManager : MonoBehaviour
         {
             if(snapObj != null)
             {
-                Collider[] cols = snapObj.GetComponentsInChildren<Collider>();
+                //Collider[] cols = snapObj.GetComponentsInChildren<Collider>();
 
-                foreach (var col in cols)
-                {
-                    //col.isTrigger = false;
-                }
+                //foreach (var col in cols)
+                //{
+                //    //col.isTrigger = false;
+                //}
 
                 //if (snapObj.TryGetComponent<Rigidbody>(out Rigidbody rigid))
                 //    rigid.isKinematic = false;

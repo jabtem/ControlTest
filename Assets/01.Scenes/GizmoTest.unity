@@ -410,7 +410,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-61574
+  m_Name: pb_Mesh24366
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1096,7 +1096,7 @@ MonoBehaviour:
   rotationGizmo: {fileID: 1948362223}
   transformGizmo: {fileID: 1334241235}
   transformType: 1
-  gizmoType: 1
+  gizmoType: 0
   selectedAxies: 0
   clickPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &363389210
@@ -39193,6 +39193,7 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!114 &902563945
 MonoBehaviour:
   m_ObjectHideFlags: 0
