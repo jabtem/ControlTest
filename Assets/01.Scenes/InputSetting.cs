@@ -31,7 +31,7 @@ public partial class @InputSetting : IInputActionCollection2, IDisposable
                     ""name"": ""Move"",
                     ""type"": ""PassThrough"",
                     ""id"": ""cb99628a-3262-4c4c-a5b7-1a99e018d5cd"",
-                    ""expectedControlType"": ""Vector3"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -39,9 +39,9 @@ public partial class @InputSetting : IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": ""3D Vector"",
-                    ""id"": ""0f6bb121-ed62-4bdf-a7d4-1f7880c6ec83"",
-                    ""path"": ""3DVector"",
+                    ""name"": ""2D Vector"",
+                    ""id"": ""17c20351-e1a1-493f-859d-fd07769a9b09"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -50,8 +50,30 @@ public partial class @InputSetting : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""up"",
+                    ""id"": ""2d5275e8-4b7d-4b6d-8d3b-42350cad940c"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""be2ebf92-f915-436c-ad11-d26355a4ec0a"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""left"",
-                    ""id"": ""de078262-4d54-41f2-ab55-e1dd2685852e"",
+                    ""id"": ""839da525-7e71-41b3-af74-c860d574b154"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -62,7 +84,7 @@ public partial class @InputSetting : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""a348451b-3830-419d-bb2d-9d9124867793"",
+                    ""id"": ""ae46795c-8c40-42a2-97f9-b9e03df6a13a"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -72,31 +94,20 @@ public partial class @InputSetting : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""forward"",
-                    ""id"": ""a006f085-9add-49aa-b6f8-84fe741e106a"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""name"": """",
+                    ""id"": ""b9cf4449-359f-4169-9ef0-12acfd47439c"",
+                    ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""backward"",
-                    ""id"": ""d2d45f59-7cd4-4003-9d8b-9b81d43a20b4"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 }
             ]
         },
         {
-            ""name"": ""BuildMenu"",
+            ""name"": ""Housing"",
             ""id"": ""ed04abc9-03c6-4b81-9a90-1e6aa58e7bff"",
             ""actions"": [
                 {
@@ -149,10 +160,10 @@ public partial class @InputSetting : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        // BuildMenu
-        m_BuildMenu = asset.FindActionMap("BuildMenu", throwIfNotFound: true);
-        m_BuildMenu_ObjectSnap = m_BuildMenu.FindAction("ObjectSnap", throwIfNotFound: true);
-        m_BuildMenu_PointerMove = m_BuildMenu.FindAction("PointerMove", throwIfNotFound: true);
+        // Housing
+        m_Housing = asset.FindActionMap("Housing", throwIfNotFound: true);
+        m_Housing_ObjectSnap = m_Housing.FindAction("ObjectSnap", throwIfNotFound: true);
+        m_Housing_PointerMove = m_Housing.FindAction("PointerMove", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -242,34 +253,34 @@ public partial class @InputSetting : IInputActionCollection2, IDisposable
     }
     public PlayerActions @Player => new PlayerActions(this);
 
-    // BuildMenu
-    private readonly InputActionMap m_BuildMenu;
-    private IBuildMenuActions m_BuildMenuActionsCallbackInterface;
-    private readonly InputAction m_BuildMenu_ObjectSnap;
-    private readonly InputAction m_BuildMenu_PointerMove;
-    public struct BuildMenuActions
+    // Housing
+    private readonly InputActionMap m_Housing;
+    private IHousingActions m_HousingActionsCallbackInterface;
+    private readonly InputAction m_Housing_ObjectSnap;
+    private readonly InputAction m_Housing_PointerMove;
+    public struct HousingActions
     {
         private @InputSetting m_Wrapper;
-        public BuildMenuActions(@InputSetting wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ObjectSnap => m_Wrapper.m_BuildMenu_ObjectSnap;
-        public InputAction @PointerMove => m_Wrapper.m_BuildMenu_PointerMove;
-        public InputActionMap Get() { return m_Wrapper.m_BuildMenu; }
+        public HousingActions(@InputSetting wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ObjectSnap => m_Wrapper.m_Housing_ObjectSnap;
+        public InputAction @PointerMove => m_Wrapper.m_Housing_PointerMove;
+        public InputActionMap Get() { return m_Wrapper.m_Housing; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(BuildMenuActions set) { return set.Get(); }
-        public void SetCallbacks(IBuildMenuActions instance)
+        public static implicit operator InputActionMap(HousingActions set) { return set.Get(); }
+        public void SetCallbacks(IHousingActions instance)
         {
-            if (m_Wrapper.m_BuildMenuActionsCallbackInterface != null)
+            if (m_Wrapper.m_HousingActionsCallbackInterface != null)
             {
-                @ObjectSnap.started -= m_Wrapper.m_BuildMenuActionsCallbackInterface.OnObjectSnap;
-                @ObjectSnap.performed -= m_Wrapper.m_BuildMenuActionsCallbackInterface.OnObjectSnap;
-                @ObjectSnap.canceled -= m_Wrapper.m_BuildMenuActionsCallbackInterface.OnObjectSnap;
-                @PointerMove.started -= m_Wrapper.m_BuildMenuActionsCallbackInterface.OnPointerMove;
-                @PointerMove.performed -= m_Wrapper.m_BuildMenuActionsCallbackInterface.OnPointerMove;
-                @PointerMove.canceled -= m_Wrapper.m_BuildMenuActionsCallbackInterface.OnPointerMove;
+                @ObjectSnap.started -= m_Wrapper.m_HousingActionsCallbackInterface.OnObjectSnap;
+                @ObjectSnap.performed -= m_Wrapper.m_HousingActionsCallbackInterface.OnObjectSnap;
+                @ObjectSnap.canceled -= m_Wrapper.m_HousingActionsCallbackInterface.OnObjectSnap;
+                @PointerMove.started -= m_Wrapper.m_HousingActionsCallbackInterface.OnPointerMove;
+                @PointerMove.performed -= m_Wrapper.m_HousingActionsCallbackInterface.OnPointerMove;
+                @PointerMove.canceled -= m_Wrapper.m_HousingActionsCallbackInterface.OnPointerMove;
             }
-            m_Wrapper.m_BuildMenuActionsCallbackInterface = instance;
+            m_Wrapper.m_HousingActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @ObjectSnap.started += instance.OnObjectSnap;
@@ -281,12 +292,12 @@ public partial class @InputSetting : IInputActionCollection2, IDisposable
             }
         }
     }
-    public BuildMenuActions @BuildMenu => new BuildMenuActions(this);
+    public HousingActions @Housing => new HousingActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
     }
-    public interface IBuildMenuActions
+    public interface IHousingActions
     {
         void OnObjectSnap(InputAction.CallbackContext context);
         void OnPointerMove(InputAction.CallbackContext context);

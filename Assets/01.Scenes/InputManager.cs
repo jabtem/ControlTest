@@ -27,8 +27,8 @@ public class InputManager : MonoBehaviour
         get => pointerDelta;
     }
 
-    Vector3 moveDir;
-    public Vector3 MoveDir
+    Vector2 moveDir;
+    public Vector2 MoveDir
     {
         get => moveDir;
     }
@@ -44,13 +44,13 @@ public class InputManager : MonoBehaviour
         else
             Destroy(this.gameObject);
 
-        inputSet.BuildMenu.PointerMove.performed += OnPointerMove;
-        inputSet.BuildMenu.ObjectSnap.started += (context) =>
+        inputSet.Housing.PointerMove.performed += OnPointerMove;
+        inputSet.Housing.ObjectSnap.started += (context) =>
         {
             Input_ObjectClickDown?.Invoke();
             isObjectClick = true;
         };
-        inputSet.BuildMenu.ObjectSnap.canceled += (context) =>
+        inputSet.Housing.ObjectSnap.canceled += (context) =>
         {
             Input_ObjectClickUp?.Invoke();
             isObjectClick = false;
@@ -58,10 +58,10 @@ public class InputManager : MonoBehaviour
 
         inputSet.Player.Move.performed += (context) =>
         {
-            moveDir = context.ReadValue<Vector3>();
+            moveDir = context.ReadValue<Vector2>();
         };
 
-        testButt.onClick.AddListener(() => { ActionMapChange(inputSet.BuildMenu); });
+        testButt.onClick.AddListener(() => { ActionMapChange(inputSet.Housing); });
         testButt2.onClick.AddListener(() => { ActionMapChange(inputSet.Player); });
     }
 

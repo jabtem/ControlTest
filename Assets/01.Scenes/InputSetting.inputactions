@@ -9,7 +9,7 @@
                     "name": "Move",
                     "type": "PassThrough",
                     "id": "cb99628a-3262-4c4c-a5b7-1a99e018d5cd",
-                    "expectedControlType": "Vector3",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -17,9 +17,9 @@
             ],
             "bindings": [
                 {
-                    "name": "3D Vector",
-                    "id": "0f6bb121-ed62-4bdf-a7d4-1f7880c6ec83",
-                    "path": "3DVector",
+                    "name": "2D Vector",
+                    "id": "17c20351-e1a1-493f-859d-fd07769a9b09",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -28,8 +28,30 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "up",
+                    "id": "2d5275e8-4b7d-4b6d-8d3b-42350cad940c",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "be2ebf92-f915-436c-ad11-d26355a4ec0a",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "left",
-                    "id": "de078262-4d54-41f2-ab55-e1dd2685852e",
+                    "id": "839da525-7e71-41b3-af74-c860d574b154",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -40,7 +62,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "a348451b-3830-419d-bb2d-9d9124867793",
+                    "id": "ae46795c-8c40-42a2-97f9-b9e03df6a13a",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -50,31 +72,20 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "forward",
-                    "id": "a006f085-9add-49aa-b6f8-84fe741e106a",
-                    "path": "<Keyboard>/w",
+                    "name": "",
+                    "id": "b9cf4449-359f-4169-9ef0-12acfd47439c",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Move",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "backward",
-                    "id": "d2d45f59-7cd4-4003-9d8b-9b81d43a20b4",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 }
             ]
         },
         {
-            "name": "BuildMenu",
+            "name": "Housing",
             "id": "ed04abc9-03c6-4b81-9a90-1e6aa58e7bff",
             "actions": [
                 {

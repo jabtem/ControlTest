@@ -10,7 +10,8 @@ public class TestMove : MonoBehaviour
     {
         if(InputManager.Instance.MoveDir.sqrMagnitude>0.1f)
         {
-            transform.Translate(3f * Time.deltaTime * InputManager.Instance.MoveDir, Space.World);
+            Vector3 moveDir = new Vector3(InputManager.Instance.MoveDir.x, 0f, InputManager.Instance.MoveDir.y);
+            transform.Translate(3f * Time.deltaTime * moveDir, Space.World);
         }
     }
 }
