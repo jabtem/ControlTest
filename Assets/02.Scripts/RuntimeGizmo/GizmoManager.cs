@@ -250,15 +250,9 @@ public class GizmoManager : MonoBehaviour
                                 {
                                     clickPosition = hitpoint-target.position;
                                 }
-
-
                                 Vector3 proj = Vector3.Project(hitpoint-(target.position+clickPosition), targetDirection.right);
-
                                 target.position +=proj;
-
-                                
                             }
-  
                         }
 
 
@@ -267,7 +261,6 @@ public class GizmoManager : MonoBehaviour
                         if (gizmoType.Equals(GizmoType.Rotation))
                         {
                             //target.Rotate(targetDirection.up, -InputManager.Instance.PointerDelta.x + InputManager.Instance.PointerDelta.y, Space.World);
-
                             if (clickPosition.Equals(Vector3.zero))
                             {
                                 //clickPosition = targetDirection.right;
@@ -302,8 +295,6 @@ public class GizmoManager : MonoBehaviour
                                 {
                                     clickPosition = hitpoint - target.position;
                                 }
-
-
                                 Vector3 proj = Vector3.Project(hitpoint - (target.position + clickPosition), targetDirection.up);
 
                                 target.position += proj;
@@ -312,7 +303,6 @@ public class GizmoManager : MonoBehaviour
                             }
                         }
                         break;
-
                     case GizmoAxis.Z:
                         if (gizmoType.Equals(GizmoType.Rotation))
                         {
@@ -339,7 +329,6 @@ public class GizmoManager : MonoBehaviour
                         }
 
                         else
-                        //target.Translate(target.forward * ((InputManager.Instance.PointerDelta.x + InputManager.Instance.PointerDelta.y) * 0.01f), Space.World);
                         {
                             Plane plane = new Plane(targetDirection.up, target.position);
                             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -350,13 +339,9 @@ public class GizmoManager : MonoBehaviour
                                 {
                                     clickPosition = hitpoint - target.position;
                                 }
-
-
                                 Vector3 proj = Vector3.Project(hitpoint - (target.position + clickPosition), targetDirection.forward);
 
                                 target.position += proj;
-
-
                             }
 
                         }
@@ -377,10 +362,7 @@ public class GizmoManager : MonoBehaviour
                                 Vector3 sub =hitpoint- (target.position + clickPosition);
 
                                 target.position += sub;
-
-
                             }
-
                         }
                         break;
                     case GizmoAxis.YZ:
@@ -422,9 +404,7 @@ public class GizmoManager : MonoBehaviour
 
                                 target.position += sub;
 
-
                             }
-
                         }
                         break;
                 }

@@ -14,17 +14,16 @@ public class SnapManager : MonoBehaviour
     private void OnEnable()
     {
         InputManager.Instance.Input_ObjectClickDown += SnapCheck;
-        //InputManager.Instance.Input_ObjectMove += SnapObjMove;
     }
 
 
     private void OnDisable()
     {
         InputManager.Instance.Input_ObjectClickDown -= SnapCheck;
-        //InputManager.Instance.Input_ObjectMove -= SnapObjMove;
     }
     public void SnapCheck()
     {
+        //플레이어와 장애물 레이어 제외
         int layerMask = ~(1 << LayerMask.NameToLayer("Obstacle")| 1<<LayerMask.NameToLayer("Player"));
         int gizmoLayer = 1 << LayerMask.NameToLayer("Gizmo");
 
@@ -66,15 +65,15 @@ public class SnapManager : MonoBehaviour
         {
             if(snapObj != null)
             {
-                //Collider[] cols = snapObj.GetComponentsInChildren<Collider>();
+                Collider[] cols = snapObj.GetComponentsInChildren<Collider>();
 
-                //foreach (var col in cols)
-                //{
-                //    //col.isTrigger = false;
-                //}
+                foreach (var col in cols)
+                {
+                    col.isTrigger = false;
+                }
 
-                //if (snapObj.TryGetComponent<Rigidbody>(out Rigidbody rigid))
-                //    rigid.isKinematic = false;
+                if (snapObj.TryGetComponent<Rigidbody>(out Rigidbody rigid))
+                    rigid.isKinematic = false;
                 snapObj = null;
                 gizmoManager.ShowGizmo();
             }
