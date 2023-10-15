@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/01.Scenes/Fps&TpsControlTest.unity
+    path: Assets/01.Scenes/ControlTestScene/Fps&TpsControlTest.unity
     guid: 359c66d5cb525414f931b243c6aa068d
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: b977e47191a7dd74ca73ba15d375186f, type: 2}
