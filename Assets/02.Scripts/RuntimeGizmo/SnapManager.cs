@@ -65,16 +65,16 @@ public class SnapManager : MonoBehaviour
         {
             if(snapObj != null)
             {
-                Collider[] cols = snapObj.GetComponentsInChildren<Collider>();
+                //Collider[] cols = snapObj.GetComponentsInChildren<Collider>();
 
-                foreach (var col in cols)
-                {
-                    col.isTrigger = false;
-                }
+                //foreach (var col in cols)
+                //{
+                //    col.isTrigger = false;
+                //}
 
-                if (snapObj.TryGetComponent<Rigidbody>(out Rigidbody rigid))
-                    rigid.isKinematic = false;
-                snapObj = null;
+                //if (snapObj.TryGetComponent<Rigidbody>(out Rigidbody rigid))
+                //    rigid.isKinematic = false;
+                //snapObj = null;
                 gizmoManager.ShowGizmo();
             }
 

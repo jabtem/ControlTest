@@ -208,19 +208,13 @@ public class GizmoManager : MonoBehaviour
         {
             if(snapManager.snapObj != null)
             {
-
-
-
                 switch(selectedAxies)
                 {
                     case GizmoAxis.X:
                         if (gizmoType.Equals(GizmoType.Rotation))
                         {
-                            //target.Rotate(targetDirection.right, InputManager.Instance.PointerDelta.x - InputManager.Instance.PointerDelta.y, Space.World);
                             if (clickPosition.Equals(Vector3.zero))
                             {
-                                //clickPosition = targetDirection.right;
-
                                 Vector3 normalVec = Vector3.Cross(targetDirection.right, targetDirection.forward);
 
                                 normalVec = normalVec.y < 0 ? normalVec : -normalVec;
@@ -260,17 +254,15 @@ public class GizmoManager : MonoBehaviour
                     case GizmoAxis.Y:
                         if (gizmoType.Equals(GizmoType.Rotation))
                         {
-                            //target.Rotate(targetDirection.up, -InputManager.Instance.PointerDelta.x + InputManager.Instance.PointerDelta.y, Space.World);
                             if (clickPosition.Equals(Vector3.zero))
                             {
-                                //clickPosition = targetDirection.right;
-
                                 Vector3 normalVec = Vector3.Cross(targetDirection.up, targetDirection.forward);
 
                                 normalVec = normalVec.x > 0 ? normalVec : -normalVec;
 
                                 clickPosition = normalVec;
                             } 
+
                             Debug.DrawRay(target.position, clickPosition * 100f, Color.red);
                             if (Vector3.Dot(targetDirection.up, Vector3.up) >= 0)
                             {
