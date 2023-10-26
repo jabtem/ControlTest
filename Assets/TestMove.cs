@@ -5,13 +5,30 @@ using UnityEngine;
 public class TestMove : MonoBehaviour
 {
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        if(InputManager.Instance.MoveDir.sqrMagnitude>0.1f)
+        InputManager.instance.Input_Move += PlayerMove;
+    }
+    private void OnDisable()
+    {
+        InputManager.instance.Input_Move -= PlayerMove;
+    }
+
+    private void PlayerMove(Vector2 vec)
+    {
+        if (vec.sqrMagnitude > 0.1f)
         {
-            Vector3 moveDir = new Vector3(InputManager.Instance.MoveDir.x, 0f, InputManager.Instance.MoveDir.y);
+            Vector3 moveDir = new Vector3(InputManager.instance.moveDir.x, 0f, InputManager.instance.moveDir.y);
             transform.Translate(3f * Time.deltaTime * moveDir, Space.World);
         }
     }
+
+    //void Update()
+    //{
+    //    if(InputManager.Instance.moveDir.sqrMagnitude>0.1f)
+    //    {
+    //        Vector3 moveDir = new Vector3(InputManager.Instance.moveDir.x, 0f, InputManager.Instance.moveDir.y);
+    //        transform.Translate(3f * Time.deltaTime * moveDir, Space.World);
+    //    }
+    //}
 }

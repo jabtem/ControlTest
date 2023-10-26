@@ -1091,14 +1091,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10e372090b94b64ebc988a4b9967700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   snapManager: {fileID: 1788186133}
   rotationGizmo: {fileID: 1948362223}
   transformGizmo: {fileID: 1334241235}
-  transformType: 1
-  gizmoType: 0
-  selectedAxies: 0
-  clickPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &363389210
 GameObject:
   m_ObjectHideFlags: 0
@@ -22157,9 +22152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dbf914c1fbf0d9488ae46b68fc51df6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testButt: {fileID: 1036857175}
-  testButt2: {fileID: 1810859808}
-  isObjectClick: 0
+  housingModeButt: {fileID: 1036857175}
+  playerModeButt: {fileID: 1810859808}
 --- !u!4 &620078263
 Transform:
   m_ObjectHideFlags: 0
@@ -39331,7 +39325,7 @@ GameObject:
   - component: {fileID: 1036857176}
   - component: {fileID: 1036857175}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60978,7 +60972,7 @@ GameObject:
   - component: {fileID: 1810859809}
   - component: {fileID: 1810859808}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

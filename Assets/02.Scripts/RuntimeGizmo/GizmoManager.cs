@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class GizmoManager : MonoBehaviour
 {
-
-    public Transform target;
-
     public SnapManager snapManager;
+
+    private Transform target;
     [SerializeField]
     GameObject rotationGizmo;
     [SerializeField]
     GameObject transformGizmo;
-    public TransformType transformType;
-    public GizmoType gizmoType;
-    public GizmoAxis selectedAxies;
+    private TransformType transformType;
+    private GizmoType gizmoType;
+    private GizmoAxis selectedAxies;
     TargetDirection targetDirection;
-
-    public Vector3 clickPosition;
+    private Vector3 clickPosition;
 
 
     private void Reset()
@@ -28,14 +26,14 @@ public class GizmoManager : MonoBehaviour
 
     private void OnEnable()
     {
-        InputManager.Instance.Input_ObjectMove += GizmoMove;
-        InputManager.Instance.Input_ObjectClickUp += SelectInfoReset;
+        InputManager.instance.Input_ObjectMove += GizmoMove;
+        InputManager.instance.Input_ObjectClickUp += SelectInfoReset;
     }
 
     private void OnDisable()
     {
-        InputManager.Instance.Input_ObjectMove -= GizmoMove;
-        InputManager.Instance.Input_ObjectClickUp -= SelectInfoReset;
+        InputManager.instance.Input_ObjectMove -= GizmoMove;
+        InputManager.instance.Input_ObjectClickUp -= SelectInfoReset;
     }
 
     public void SelectInfoReset()
@@ -204,7 +202,7 @@ public class GizmoManager : MonoBehaviour
 
     public void GizmoMove()
     {
-        if (InputManager.Instance.PointerDelta != Vector2.zero && InputManager.Instance.isObjectClick)
+        if (InputManager.instance.pointerDelta != Vector2.zero && InputManager.instance.isObjectClick)
         {
             if(snapManager.snapObj != null)
             {
@@ -224,11 +222,11 @@ public class GizmoManager : MonoBehaviour
                             Debug.DrawRay(target.position, clickPosition * 100f, Color.red);
                             if (Vector3.Dot(targetDirection.right, Vector3.right) >= 0)
                             {
-                                target.Rotate(targetDirection.right, -Vector3.Dot(InputManager.Instance.PointerDelta, clickPosition), Space.World);
+                                target.Rotate(targetDirection.right, -Vector3.Dot(InputManager.instance.pointerDelta, clickPosition), Space.World);
                             }
                             else
                             {
-                                target.Rotate(targetDirection.right, Vector3.Dot(InputManager.Instance.PointerDelta, clickPosition), Space.World);
+                                target.Rotate(targetDirection.right, Vector3.Dot(InputManager.instance.pointerDelta, clickPosition), Space.World);
                             }
 
                         }
@@ -266,11 +264,11 @@ public class GizmoManager : MonoBehaviour
                             Debug.DrawRay(target.position, clickPosition * 100f, Color.red);
                             if (Vector3.Dot(targetDirection.up, Vector3.up) >= 0)
                             {
-                                target.Rotate(targetDirection.up, -Vector3.Dot(InputManager.Instance.PointerDelta, clickPosition), Space.World);
+                                target.Rotate(targetDirection.up, -Vector3.Dot(InputManager.instance.pointerDelta, clickPosition), Space.World);
                             }
                             else
                             {
-                                target.Rotate(targetDirection.up, Vector3.Dot(InputManager.Instance.PointerDelta, clickPosition), Space.World);
+                                target.Rotate(targetDirection.up, Vector3.Dot(InputManager.instance.pointerDelta, clickPosition), Space.World);
                             }
 
                         }
@@ -312,11 +310,11 @@ public class GizmoManager : MonoBehaviour
                             Debug.DrawRay(target.position, clickPosition * 100f, Color.red);
                             if (Vector3.Dot(targetDirection.forward, Vector3.forward) >= 0)
                             {
-                                target.Rotate(targetDirection.forward, -Vector3.Dot(InputManager.Instance.PointerDelta, clickPosition), Space.World);
+                                target.Rotate(targetDirection.forward, -Vector3.Dot(InputManager.instance.pointerDelta, clickPosition), Space.World);
                             }
                             else
                             {
-                                target.Rotate(targetDirection.forward, Vector3.Dot(InputManager.Instance.PointerDelta, clickPosition), Space.World);
+                                target.Rotate(targetDirection.forward, Vector3.Dot(InputManager.instance.pointerDelta, clickPosition), Space.World);
                             }
                         }
 

@@ -6,82 +6,87 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 public class InputManager : MonoBehaviour
 {
-
     public event Action Input_ObjectClickDown;
     public event Action Input_ObjectMove;
     public event Action Input_ObjectClickUp;
+    public event Action<Vector2> Input_Move;
 
-    public static InputManager Instance;
+    public static InputManager instance;
+    private InputSetting _inputSet;
+    public Button housingModeButt;
+    public Button playerModeButt;
 
-    public InputSetting inputSet;
-
-    public Button testButt;
-    public Button testButt2;
-
-    public bool isObjectClick = false;
-
-    Vector2 pointerDelta;
-
-    public Vector2 PointerDelta
+    private bool _isObjectClick = false;
+    public bool isObjectClick
     {
-        get => pointerDelta;
+        get => _isObjectClick;
     }
 
-    Vector2 moveDir;
-    public Vector2 MoveDir
+    Vector2 _pointerDelta;
+    public Vector2 pointerDelta
     {
-        get => moveDir;
+        get => _pointerDelta;
+    }
+
+    Vector2 _moveDir;
+    public Vector2 moveDir
+    {
+        get => _moveDir;
     }
 
     private void Awake()
     {
-        inputSet = new InputSetting();
-        if (Instance == null)
+        _inputSet = new InputSetting();
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
         else
             Destroy(this.gameObject);
 
-        inputSet.Housing.PointerMove.performed += OnPointerMove;
-        inputSet.Housing.ObjectSnap.started += (context) =>
+        _inputSet.Housing.PointerMove.performed += OnPointerMove;
+        _inputSet.Housing.ObjectSnap.started += (context) =>
         {
             Input_ObjectClickDown?.Invoke();
-            isObjectClick = true;
+            _isObjectClick = true;
         };
-        inputSet.Housing.ObjectSnap.canceled += (context) =>
+        _inputSet.Housing.ObjectSnap.canceled += (context) =>
         {
             Input_ObjectClickUp?.Invoke();
-            isObjectClick = false;
+            _isObjectClick = false;
         };
 
-        inputSet.Player.Move.performed += (context) =>
+        _inputSet.Player.Move.performed += (context) =>
         {
-            moveDir = context.ReadValue<Vector2>();
+            _moveDir = context.ReadValue<Vector2>();
         };
 
-        testButt.onClick.AddListener(() => { ActionMapChange(inputSet.Housing); });
-        testButt2.onClick.AddListener(() => { ActionMapChange(inputSet.Player); });
+        housingModeButt.onClick.AddListener(() => { ActionMapChange(_inputSet.Housing); });
+        playerModeButt.onClick.AddListener(() => { ActionMapChange(_inputSet.Player); });
     }
 
     private void OnEnable()
     {
-        ActionMapChange(inputSet.Player);
+        ActionMapChange(_inputSet.Player);
     }
-
 
     public void ActionMapChange(InputActionMap actionMap)
     {
         if (actionMap.enabled)
             return;
-        inputSet.Disable();
+        _inputSet.Disable();
         actionMap.Enable();
     }
 
     public void OnPointerMove(InputAction.CallbackContext context)
     {
-        pointerDelta = context.ReadValue<Vector2>();
+        _pointerDelta = context.ReadValue<Vector2>();
         Input_ObjectMove?.Invoke();
+    }
+
+    private void Update()
+    {
+        Input_Move?.Invoke(_moveDir);
     }
 }

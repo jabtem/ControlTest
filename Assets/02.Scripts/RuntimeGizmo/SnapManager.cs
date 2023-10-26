@@ -13,13 +13,13 @@ public class SnapManager : MonoBehaviour
 
     private void OnEnable()
     {
-        InputManager.Instance.Input_ObjectClickDown += SnapCheck;
+        InputManager.instance.Input_ObjectClickDown += SnapCheck;
     }
 
 
     private void OnDisable()
     {
-        InputManager.Instance.Input_ObjectClickDown -= SnapCheck;
+        InputManager.instance.Input_ObjectClickDown -= SnapCheck;
     }
     public void SnapCheck()
     {
